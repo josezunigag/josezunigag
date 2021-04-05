@@ -23,23 +23,18 @@
 					<v-icon
 						small
 						class="mr-2"
+						color="green"
 						@click="editItem(item)"
 					>
-						mdi-pencil
+						mdi-menu
 					</v-icon>
 					<v-icon
 						small
+						:color="icon_color"
+						@click="selFavorito(!active)"
 					>
-						mdi-delete
+						mdi-star
 					</v-icon>
-				</template>
-				<template v-slot:no-data>
-					<v-btn
-						color="primary"
-						@click="initialize"
-					>
-						Reset
-					</v-btn>
 				</template>
 			</v-data-table>
 		</v-card-text>
@@ -53,6 +48,8 @@ export default {
  	name: 'Home',
 	data: () => ({
 		search: '',
+		icon_color: 'grey',
+		active: true,
 		headers: [
 			{
 				text: 'Nombre',
@@ -72,7 +69,15 @@ export default {
       	this.initialize()
     },
 	methods: {
-		
+		selFavorito(active){
+			if(active){
+				this.active = !this.active
+				this.icon_color = "pink"
+			}else{
+				this.active = !this.active
+				this.icon_color = "grey"
+			}
+		},
       	initialize () {
 			this.desserts = [
 				{
