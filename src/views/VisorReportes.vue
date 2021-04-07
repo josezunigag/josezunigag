@@ -1,160 +1,213 @@
 <template>
-    <v-card>
-        <v-card-title>
-            Ingresos - Rol
-			<v-spacer></v-spacer>
-        </v-card-title>
-            
-        <v-card-text>
-            <v-row>
-                <v-col>
-                    <v-row>
-                        <v-col md="2">
-                            <v-select
-                                :items="items"
-                                label="Corte"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="2">
-                            <v-select
-                                :items="items"
-                                label="Tribunal"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="1">
-                            <v-select
-                                :items="items"
-                                label="Año Inicio"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="2">
-                            <v-select
-                                :items="items"
-                                label="Mes Inicio"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="1">
-                            <v-select
-                                :items="items"
-                                label="Año Fin"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="2">
-                            <v-select
-                                :items="items"
-                                label="Mes Fin"
-                                dense
-                                solo
-                            ></v-select>
-                        </v-col>
-                        <v-col md="2">
-                            <v-btn
-                                color="green"
-                                dark
-                            >
-                                Generar
-                                <v-icon dark right>
-                                mdi-cached
-                                </v-icon>
-                            </v-btn>
+    <v-container>
+        <v-card color="#1565C0" class="mx-auto" width="100%" shaped>
+            <v-card-title class="cardBack">
+                <h2 class="ml-15">Reporte Ingresos - Rol</h2>
+                
+                <v-spacer></v-spacer>
+            </v-card-title>
+                
+            <v-card-text>
+                <v-row class="mt-5">
+                    <v-col>
+                        <v-row>
+                            <v-col md="2" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Corte"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="2" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Tribunal"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="1" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Año Inicio"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="2" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Mes Inicio"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="1" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Año Fin"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="2" sm="12">
+                                <v-select
+                                    :items="items"
+                                    label="Mes Fin"
+                                    dense
+                                    solo
+                                ></v-select>
+                            </v-col>
+                            <v-col md="1" sm="12">
+                                <v-btn
+                                    color="green"
+                                    dark
+                                    small
+                                >
+                                    Generar
+                                    <v-icon dark right>
+                                    mdi-cached
+                                    </v-icon>
+                                </v-btn>
+                            </v-col>
+                            <v-col md="1" sm="12">
+                                <v-btn color="#E65100" class="white--text" small>
+                                    Guardar
+                                    <v-icon right dark>
+                                        mdi-cloud-upload
+                                    </v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                        <v-row>
 
-                            &nbsp;
-                            
-                            <v-btn color="blue-grey" class="white--text"
-                            >
-                            Guardar
-                            <v-icon
-                                right
-                                dark
-                            >
-                                mdi-cloud-upload
-                            </v-icon>
-                            </v-btn>
-                        </v-col>
-                    </v-row>
-                    <v-row>
+                            <v-col>
+                                <v-data-table
+                                    :items="arrData"
+                                    class="elevation-1 blue-grey lighten-5"
+                                    height="500px"
+                                    hide-default-header
+                                >
+                                    <template v-slot:top>
+                                        <v-toolbar flat class="blue-grey lighten-5">
+                                            <v-toolbar-title>Reporte Ingresos - Rol</v-toolbar-title>
 
-                        <v-col>
-                            <v-data-table
-                                :headers="headers"
-                                :items="arrData"
-                                class="elevation-1"
-                                height="500px"
-                            >
-                                <template v-slot:top>
-                                    <v-toolbar flat>
-                                        <v-toolbar-title>Reporte Ingresos - Rol</v-toolbar-title>
+                                            <v-divider class="mx-4" inset vertical></v-divider>
+                                            <v-spacer></v-spacer>
+                        
+                                            <vue-excel-xlsx class="my-2 btn btn-primary" :data="arrData" :columns="excelheaders" :filename="'Reporte Ingresos_Rol'" :sheetname="'Ingresos_Rol'">
+                                                <v-btn
+                                                        color="#FFD600"
+                                                        class="ma-2"
+                                                        right
+                                                >
+                                                    Excel
+                                                    <v-icon right dark>
+                                                        mdi-cloud-upload
+                                                    </v-icon>
+                                                </v-btn>
+                                            </vue-excel-xlsx>
+                                        </v-toolbar>
+                                    </template>
+                                    <template v-slot:[`body`]="{ items }">
+                                        <thead class="primary--text">
+                                            <th>Cod Corte</th>
+                                            <th>Corte</th>
+                                            <th>Cod. Tribunal</th>
+                                            <th>Tribunal</th>
+                                            <th>Cod. Tipo Causa</th>
+                                            <th>Tipo Causa</th>
+                                            <th>ROL</th>
+                                            <th>ERA</th>
+                                            <th>Fec. Ingreso</th>
+                                            <th>Cod. Procedimiento</th>
+                                            <th>Procedimiento</th>
+                                            <th>Cod. Materia</th>
+                                            <th>Materia</th>
+                                            <th>Tipo Ingreso</th>
+                                            <th>Masivo</th>
+                                            <th>Cod. Estado Procesal</th>
+                                            <th>Estado Procesal</th>
+                                            <th>Cod. Forma Inicio</th>
+                                            <th>Forma Inicio</th>
+                                            <th>Caratulado</th>
+                                            <th>Marca Digital</th>
+                                            <th>Mes</th>
+                                            <th>Año</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="item in items" :key="item.increment">
+                                                <td style ="text-align: center" class="bordes">{{ item.cod_corte }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_corte }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.cod_tribunal }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_tribunal }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_tipo_causa }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.tip_causa }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.rol_causa }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.era_causa }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.fecha_ingreso }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.cod_procedimiento }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_procedimiento }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.cod_materia }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_materia }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_ing_causa }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.flg_masivo }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.est_procesal }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_estprocesal }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.id_formainicio }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.gls_formainicio }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.caratulado }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.marca_digital }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.mes }}</td>
+                                                <td style ="text-align: center" class="bordes">{{ item.ano }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                </v-data-table>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-data-table
+                                    :headers="headersHistorial"
+                                    :items="arrHistorial"
+                                    class="elevation-1 blue-grey lighten-5"
+                                    height="500px"
+                                >
+                                    <template v-slot:top>
+                                        <v-toolbar flat class="blue-grey lighten-5">
+                                            <v-toolbar-title>Historial</v-toolbar-title>
 
-                                        <v-divider class="mx-4" inset vertical></v-divider>
-                                        <v-spacer></v-spacer>
-                    
-                                        <vue-excel-xlsx class="my-2 btn btn-primary" :data="arrData" :columns="excelheaders" :filename="'Reporte Ingresos_Rol'" :sheetname="'Ingresos_Rol'">
-                                            <v-btn
-                                                    color="blue-grey"
-                                                    class="ma-2 white--text"
-                                                    right
-                                            >
-                                                Excel
-                                                <v-icon right dark>
-                                                    mdi-cloud-upload
-                                                </v-icon>
-                                            </v-btn>
-                                        </vue-excel-xlsx>
-                                    </v-toolbar>
-                                </template>
-                            </v-data-table>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-data-table
-                                :headers="headersHistorial"
-                                :items="arrHistorial"
-                                class="elevation-1"
-                                height="500px"
-                            >
-                                <template v-slot:top>
-                                    <v-toolbar flat>
-                                        <v-toolbar-title>Historial</v-toolbar-title>
-
-                                        <v-divider class="mx-4" inset vertical></v-divider>
-                                        <v-spacer></v-spacer>
-                                    </v-toolbar>
-                                </template>
-                                <template v-slot:[`body`]="{ items }">
-                                    <tbody>
-                                    <tr v-for="item in items " :key="item.increment">
-                                        <td style ="text-align: center">{{ item.fecha_generacion }}</td>
-                                        <td style ="text-align: center">{{ item.cantidad }}</td>
-                                        <td style ="text-align: center">{{ item.usuario }}</td>
-                                        <td style ="text-align: center">
-                                            <v-icon small class="mr-2" @click="exportarHistorial(item)" color="green">
-                                                mdi-pencil
-                                            </v-icon>
-                                            <v-icon small class="mr-2" color="red">
-                                                mdi-delete
-                                            </v-icon>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </template>
-                            </v-data-table>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
-        </v-card-text>
-    </v-card>
+                                            <v-divider class="mx-4" inset vertical></v-divider>
+                                            <v-spacer></v-spacer>
+                                        </v-toolbar>
+                                    </template>
+                                    <template v-slot:[`body`]="{ items }">
+                                        <tbody>
+                                            <tr v-for="item in items " :key="item.increment">
+                                                <td style ="text-align: center">{{ item.fecha_generacion }}</td>
+                                                <td style ="text-align: center">{{ item.cantidad }}</td>
+                                                <td style ="text-align: center">{{ item.usuario }}</td>
+                                                <td style ="text-align: center">
+                                                    <v-icon small class="mr-2" @click="exportarHistorial(item)" color="green">
+                                                        mdi-pencil
+                                                    </v-icon>
+                                                    <v-icon small class="mr-2" color="red">
+                                                        mdi-delete
+                                                    </v-icon>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                </v-data-table>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
@@ -170,31 +223,6 @@ export default {
             {   text: 'Acciones',  align: 'center', value: '', class : 'primary--text gris'},
         ],
         arrData: [],
-        headers: [
-                { text: 'cod_corte',  align: 'center', value: 'cod_corte', class : 'primary--text gris'},
-                { text: 'gls_corte',  align: 'center', value: 'gls_corte', class : 'primary--text gris'},
-                { text: 'cod_tribunal', align: 'center', value: 'cod_tribunal', class : 'primary--text gris'},
-                { text: 'gls_tribunal', align: 'left', value: 'gls_tribunal', class : 'primary--text gris'},
-                { text: 'gls_tipo_causa', align: 'center', value: 'gls_tipo_causa', class : 'primary--text gris'},
-                { text: 'tip_causa', align: 'center', value: 'tip_causa', class : 'primary--text gris'},
-                { text: 'rol_causa', align: 'center', value: 'rol_causa', class : 'primary--text gris'},
-                { text: 'era_causa', align: 'center', value: 'era_causa', class : 'primary--text gris'},
-                { text: 'fecha_ingreso', align: 'center', value: 'fecha_ingreso', class : 'primary--text gris'},
-                { text: 'cod_procedimiento', align: 'center', value: 'cod_procedimiento', class : 'primary--text gris'},
-                { text: 'gls_procedimiento', align: 'center', value: 'gls_procedimiento', class : 'primary--text gris'},
-                { text: 'cod_materia', align: 'center', value: 'cod_materia', class : 'primary--text gris'},
-                { text: 'gls_materia', value: 'gls_materia', class : 'primary--text gris'},
-                { text: 'gls_ing_causa', value: 'gls_ing_causa', class : 'primary--text gris'},
-                { text: 'flg_masivo', align: 'center', value: 'flg_masivo', class : 'primary--text gris'},
-                { text: 'est_procesal', align: 'center', value: 'est_procesal', class : 'primary--text gris'},
-                { text: 'gls_estprocesal', align: 'center', value: 'gls_estprocesal', class : 'primary--text gris'},
-                { text: 'id_formainicio', align: 'center', value: 'id_formainicio', class : 'primary--text gris'},
-                { text: 'gls_formainicio', align: 'center', value: 'gls_formainicio', class : 'primary--text gris'},
-                { text: 'caratulado', align: 'center', value: 'caratulado', class : 'primary--text gris'},
-                { text: 'marca_digital', align: 'center', value: 'marca_digital', class : 'primary--text gris'},
-                { text: 'mes', align: 'center', value: 'mes', class : 'primary--text gris'},
-                { text: 'ano', align: 'center', value: 'mes', class : 'primary--text gris'}
-        ],
         excelheaders:[ 
             {label: "cod_corte",               field:  "cod_corte"},
             {label: "gls_corte",                field:  "gls_corte"},
@@ -298,3 +326,31 @@ export default {
 }
 
 </script>
+
+<style lang="css" scoped>
+.cardBack{
+	/* background-color: rgba(0, 0, 0, 0.70); */
+	background-image: url("../../public/img/cabecera.jpg");
+	background-position: center; /* Center the image */
+	background-size: cover;
+}
+
+.pruebas{
+    white-space: nowrap;
+}
+
+th {
+    /* border: 1px solid rgb(190, 190, 190); */
+    padding: 5px 10px;
+    white-space: nowrap;
+    border: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    background-color: #BDBDBD;
+}
+
+.bordes{
+    border: 1px solid #ddd;
+    white-space: nowrap;
+}
+</style>

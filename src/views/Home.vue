@@ -1,44 +1,49 @@
 <template>
-	<v-card>
-		<v-card-title>
-			Reportes
-			<v-spacer></v-spacer>
-			<v-text-field
-				v-model="search"
-				append-icon="mdi-magnify"
-				label="Search"
-				single-line
-				hide-details
-			></v-text-field>
-		</v-card-title>
-		<v-card-text>
-			<v-data-table
-				:headers="headers"
-				:items="desserts"
-				:search="search"
-				sort-by="calories"
-				class="elevation-1"
-			>
-				<template v-slot:[`item.actions`]="{ item }">
-					<v-icon
-						small
-						class="mr-2"
-						color="green"
-						@click="editItem(item)"
-					>
-						mdi-menu
-					</v-icon>
-					<v-icon
-						small
-						:color="icon_color"
-						@click="selFavorito(!active)"
-					>
-						mdi-star
-					</v-icon>
-				</template>
-			</v-data-table>
-		</v-card-text>
-	</v-card>
+	<v-container class="mx-auto">
+		<v-card class="mx-auto"  width="70%" color="#1565C0" shaped>
+			<v-card-title class="cardBack">
+				<h2 class="ml-10">Lista de Reportes</h2>
+				<v-spacer></v-spacer>
+				<v-text-field
+					v-model="search"
+					append-icon="mdi-magnify"
+					label="Search"
+					single-line
+					hide-details
+					class="white"
+					shaped
+				></v-text-field>
+			</v-card-title>
+			<v-card-text>
+				<v-data-table
+					:headers="headers"
+					:items="desserts"
+					:search="search"
+					sort-by="calories"
+					class="elevation-1 blue-grey lighten-5"
+					
+				>
+					<template v-slot:[`item.actions`]="{ item }">
+						<v-icon
+							small
+							class="mr-2"
+							color="green"
+							@click="editItem(item)"
+						>
+							mdi-menu
+						</v-icon>
+						<v-icon
+							small
+							:color="icon_color"
+							@click="selFavorito(!active)"
+						>
+							mdi-star
+						</v-icon>
+					</template>
+				</v-data-table>
+			</v-card-text>
+		</v-card>
+	</v-container>
 </template>
 
 <script>
@@ -155,3 +160,15 @@ export default {
 	}
 }
 </script>
+
+<style lang="css" scoped>
+.cardBack{
+	/* background-color: rgba(0, 0, 0, 0.70); */
+	background-image: url("../../public/img/cabecera.jpg");
+	background-position: center; /* Center the image */
+	background-size: cover;
+}
+.tableBack{
+	background-color: "#B0BEC5";
+}
+</style>

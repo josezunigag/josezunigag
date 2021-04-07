@@ -1,8 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar app dense>
+    <v-app-bar app  class="appBar">
         <v-app-bar-nav-icon @click="showNav()"></v-app-bar-nav-icon>
-        <v-toolbar-title></v-toolbar-title>
+        <v-toolbar-title>
+			    <v-img
+					width="200px"
+					height="45px"
+					src="../public/img/logoestadistica.jpg"
+					class="ml-10"
+				></v-img>
+		</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>
             <v-icon>mdi-dots-vertical</v-icon>
@@ -12,7 +19,7 @@
 	<v-navigation-drawer app v-model="drawer" dark>
 		<v-list-item>
 			<v-list-item-avatar>
-			<v-img src=""></v-img>
+				<v-img src=""></v-img>
 			</v-list-item-avatar>
 
 			<v-list-item-content>
@@ -42,7 +49,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main>
+    <v-main class="layout">
         <router-view>
     	</router-view>
     </v-main>
@@ -72,4 +79,18 @@ export default {
 a {
 	text-decoration: none;
 	}
+.layout{
+	/* background-color: rgba(0, 0, 0, 0.70); */
+	background-image: url("../public/img/banner.jpg");
+	background-position: center; /* Center the image */
+	background-size: cover;
+}
+
+.appBar{
+	/* background-color: rgba(0, 0, 0, 0.70); */
+	background-image: url("../public/img/cabecera.jpg");
+	background-position: center; /* Center the image */
+	background-size: cover;
+}
+		
 </style>
