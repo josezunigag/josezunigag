@@ -13,50 +13,69 @@
                         <v-row>
                             <v-col md="2" sm="12">
                                 <v-select
-                                    :items="items"
-                                    label="Corte"
+                                    :items="arrCortes"
                                     dense
                                     solo
+                                    label="Sel. Corte"
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="cod_corte_value"
+                                    @change="buscarTribunales(cod_corte_value)"
                                 ></v-select>
                             </v-col>
                             <v-col md="2" sm="12">
                                 <v-select
-                                    :items="items"
+                                    :items="arrTribunalesSel"
                                     label="Tribunal"
                                     dense
                                     solo
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="cod_tribunal_value"
                                 ></v-select>
                             </v-col>
                             <v-col md="1" sm="12">
                                 <v-select
-                                    :items="items"
+                                    :items="arrAno"
                                     label="Año Inicio"
                                     dense
                                     solo
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="ano_inicio_value"
                                 ></v-select>
                             </v-col>
                             <v-col md="2" sm="12">
                                 <v-select
-                                    :items="items"
+                                    :items="arrMeses"
                                     label="Mes Inicio"
                                     dense
                                     solo
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="mes_inicio_value"
                                 ></v-select>
                             </v-col>
                             <v-col md="1" sm="12">
                                 <v-select
-                                    :items="items"
+                                    :items="arrAno"
                                     label="Año Fin"
                                     dense
                                     solo
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="ano_fin_value"
                                 ></v-select>
                             </v-col>
                             <v-col md="2" sm="12">
                                 <v-select
-                                    :items="items"
+                                    :items="arrMeses"
                                     label="Mes Fin"
                                     dense
                                     solo
+                                    item-text="nombre"
+                                    item-value="value"
+                                    v-model="mes_fin_value"
                                 ></v-select>
                             </v-col>
                             <v-col md="1" sm="12">
@@ -64,6 +83,7 @@
                                     color="green"
                                     dark
                                     small
+                                    @click="generar()"
                                 >
                                     Generar
                                     <v-icon dark right>
@@ -88,7 +108,12 @@
                                     class="elevation-1 blue-grey lighten-5"
                                     height="500px"
                                     hide-default-header
+                                    :loading="myloading"
+                                    loading-text="Cargando Informacion..."
                                 >
+                                    <template v-slot:no-data>
+                                        <p>The Table is Empty. Please insert data with the above Button.</p>
+                                    </template>
                                     <template v-slot:top>
                                         <v-toolbar flat class="blue-grey lighten-5">
                                             <v-toolbar-title>Reporte Ingresos - Rol</v-toolbar-title>
@@ -215,6 +240,13 @@
 export default {
     name: 'VisorReportes',
     data: () => ({
+        cod_corte_value: null,
+        cod_tribunal_value: null,
+        ano_inicio_value: null,
+        mes_inicio_value: null,
+        ano_fin_value: null,
+        mes_fin_value: null,
+        myloading: false,
         arrHistorial: [{fecha_generacion: "01-04-2021", cantidad: 3500,usuario: "jose_zuniga"}],
         headersHistorial: [
             {   text: 'fecha_generacion',  align: 'center', value: 'fecha_generacion', class : 'primary--text gris'},
@@ -247,28 +279,65 @@ export default {
             {label: "marca_digital",            field:  "marca_digital"},
             {label: "mes",                      field:  "mes"},
             {label: "mes",                      field:  "mes"}
+        ],
+        arrCortes: [
+            {nombre: "Todos", value: 0},
+            {nombre: "C.A. de Arica", value: 10},
+            {nombre: "C.A. de Santiago", value: 90},
+        ],
+        arrTribunales: [
+            {nombre: "Todos", value: 0, cod_corte: 0},
+            {nombre: "1º Juzgado de Letras de Arica", value: 2  , cod_corte: 10 },
+            {nombre: "2º Juzgado de Letras de Arica", value: 3  , cod_corte: 10 },
+            {nombre: "3º Juzgado de Letras de Arica", value: 4  , cod_corte: 10 },
+            {nombre: "1º Juzgado Civil de Santiago" , value: 259, cod_corte: 90 },
+            {nombre: "2º Juzgado Civil de Santiago" , value: 260, cod_corte: 90 },
+            {nombre: "3º Juzgado Civil de Santiago" , value: 261, cod_corte: 90 },
+            {nombre: "4º Juzgado Civil de Santiago" , value: 262, cod_corte: 90 },
+            {nombre: "5º Juzgado Civil de Santiago" , value: 263, cod_corte: 90 },
+        ],
+        arrTribunalesSel:[],
+        arrAno: [
+            {nombre: "2021", value: 2021},
+            {nombre: "2020", value: 2020},
+        ],
+        arrMeses: [
+            {nombre: "Enero", value: 1},
+            {nombre: "Febrero", value: 2},
+            {nombre: "Marzo", value: 3},
+            {nombre: "Abril", value: 4},
+            {nombre: "Mayo", value: 5},
+            {nombre: "Junio", value: 6},
+            {nombre: "Julio", value: 7},
+            {nombre: "Agosto", value: 8},
+            {nombre: "Septiembre", value: 9},
+            {nombre: "Octubre", value: 10},
+            {nombre: "Noviembre", value: 11},
+            {nombre: "Diciembre", value: 12},
         ]
     }),
     created(){
         this.requestData()
     },
     methods:{
-        requestData: function () {
-            
+        generar(){
             const axios = require('axios')
             const req1 = 'http://10.13.142.195:3001/civil/ingresos_causa'
 
+            this.myloading = true
+
+            console.log(this.myloading)
             const get = async ing_url => {
                 try{
 
                     const response = await axios.get(req1, {
                         params: {
-                            cod_corte: 10, //this.user[0].cod_tribunal
-                            cod_tribunal: 2,
-                            anoInicio: 2021,
-                            mesInicio: 1,
-                            anoFin: 2021,
-                            mesFin: 1
+                            cod_corte: this.cod_corte_value, //this.user[0].cod_tribunal
+                            cod_tribunal: this.cod_tribunal_value,
+                            anoInicio: this.ano_inicio_value,
+                            mesInicio: this.mes_inicio_value,
+                            anoFin: this.ano_fin_value,
+                            mesFin: this.mes_fin_value
                         }
                     })
 
@@ -315,9 +384,16 @@ export default {
             }
 
             get(req1)
-            console.log(this.arrData)
 
+            this.myloading = false
 
+        },
+        requestData: function () {
+            
+        },
+        buscarTribunales(cod_corte){
+            this.arrTribunalesSel = []
+            this.arrTribunalesSel = this.arrTribunales.filter(tribunal => tribunal.cod_corte == cod_corte || tribunal.cod_corte == 0)
         },
         exportarHistorial(){
             console.log("hola mundo ")
