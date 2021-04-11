@@ -92,7 +92,7 @@
                                 </v-btn>
                             </v-col>
                             <v-col md="1" sm="12">
-                                <v-btn color="#E65100" class="white--text" small>
+                                <v-btn color="#E65100" class="white--text" small @click="guardarReporte()">
                                     Guardar
                                     <v-icon right dark>
                                         mdi-cloud-upload
@@ -212,8 +212,8 @@
                                         <tbody>
                                             <tr v-for="item in items " :key="item.increment">
                                                 <td style ="text-align: center">{{ item.fecha_generacion }}</td>
-                                                <td style ="text-align: center">{{ item.cantidad }}</td>
                                                 <td style ="text-align: center">{{ item.usuario }}</td>
+                                                <td style ="text-align: center">{{ item.cantidad }}</td>
                                                 <td style ="text-align: center">
                                                     <v-icon small class="mr-2" @click="exportarHistorial(item)" color="green">
                                                         mdi-pencil
@@ -236,6 +236,7 @@
 </template>
 
 <script>
+import { mapState , mapMutations } from 'vuex'
 
 export default {
     name: 'VisorReportes',
@@ -247,7 +248,7 @@ export default {
         ano_fin_value: null,
         mes_fin_value: null,
         myloading: false,
-        arrHistorial: [{fecha_generacion: "01-04-2021", cantidad: 3500,usuario: "jose_zuniga"}],
+        // arrHistorial: [{fecha_generacion: "01-04-2021", cantidad: 3500 ,usuario: "jose_zuniga"}],
         headersHistorial: [
             {   text: 'fecha_generacion',  align: 'center', value: 'fecha_generacion', class : 'primary--text gris'},
             {   text: 'usuario',  align: 'center', value: 'usuario', class : 'primary--text gris'},
@@ -398,6 +399,21 @@ export default {
         exportarHistorial(){
             console.log("hola mundo ")
         },
+        guardarReporte(){
+            let date = new Date();
+            let dia = date.getDate();
+            let mes = date.getMonth() + 1;
+            let yyy = date.getFullYear();
+            let fecha = dia + '-' + mes + '-' + yyy
+            let cantidad = this.arrData.length
+
+            this.setHistorial({fecha_generacion: fecha, cantidad: cantidad ,usuario: "vanesa_miranda"})
+        },
+        ...mapMutations(['setHistorial']), // Mutations no Borrar
+        
+    },
+    computed: {
+        ...mapState(['arrHistorial']), // Valores Guardados
     }
 }
 
